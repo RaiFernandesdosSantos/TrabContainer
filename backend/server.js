@@ -1,15 +1,28 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const UsuarioModel = require("./models/usuario");
+const path = require("path");
 
 const usuario = new UsuarioModel();
-
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use("/style", express.static(path.join(__dirname, "public")));
+app.use("/controllers", express.static(path.join(__dirname, "controllers")));
 
-app.post("/api/login", async (req, res) => {
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/cadastro", (req, res) => {
+  res.sendFile(__dirname + "/views/cadastro.html");
+});
+
+app.post("/login", async (req, res) => {
   const { nome, senha } = req.body;
 
   try {
@@ -29,7 +42,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/add", async (req, res) => {
+app.post("/cadastro/add", async (req, res) => {
   const { nome, email, senha } = req.body;
 
   try {
@@ -42,11 +55,11 @@ app.post("/api/add", async (req, res) => {
   }
 });
 
-app.get("/api/user", async (req, res) => {
+app.get("/home", async (req, res) => {
   try {
     const result = await usuario.getUserById(req.cookies.id);
     if (result) {
-      return res.status(200).json({ success: true, data: result });
+      res.render("home", { user: result[0] });
     } else {
       return res
         .status(401)

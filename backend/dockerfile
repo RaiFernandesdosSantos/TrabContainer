@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node
 
 WORKDIR /app
 
@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "sleep 150 && node server.js"]

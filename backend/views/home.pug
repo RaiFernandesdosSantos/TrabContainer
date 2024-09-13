@@ -1,0 +1,27 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Home
+    link(rel="stylesheet", href="/style/style.css")
+
+  body
+    .container
+      .dados
+        .cabecalho
+          h1 Seja bem-vindo
+          .nome
+            p Nome: 
+              span #{user.nome}
+            a(href="/") Sair
+
+        .corpo
+          h2 Seus dados
+          .data
+            p Nome: 
+              span #{user.nome}
+            p Email: 
+              span #{user.email}
+            p Senha: 
+              span #{user.senha}
